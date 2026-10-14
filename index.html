@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Химия">
+<title>Химия-тетрадь</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--paper:#fff;--grid:#cfe0f3;--ink:#1d3a8a;--red:#c0262d;--mut:#5b6472;--line:#d8d4c8;--hl:#fff6c9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171c;--paper:#1f232b;--grid:#2c3a52;--ink:#a9c0ff;--red:#ff8a8f;--mut:#9aa3b2;--line:#394150;--hl:#3a3520}}
+:root[data-theme="dark"]{--bg:#15171c;--paper:#1f232b;--grid:#2c3a52;--ink:#a9c0ff;--red:#ff8a8f;--mut:#9aa3b2;--line:#394150;--hl:#3a3520}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 21px/1.3 'Caveat','Segoe Print','Comic Sans MS',cursive;padding:12px}
+h1{margin:6px 0 10px;font-size:30px}
+.pan,.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}
+.card{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px;overflow-x:auto}
+.card.hl{background-color:var(--hl)}
+textarea,input[type=number]{font:inherit;color:inherit;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;width:100%;box-sizing:border-box}
+input[type=number]{width:64px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+button{font:700 21px 'Caveat',cursive;background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:6px 18px}
+small{color:var(--mut);font-size:17px;display:block;margin-top:6px}
+.ti{font-weight:700;margin-bottom:4px}
+.ti b{color:var(--red)}
+.col{display:inline-block;border:2px solid var(--ink);padding:6px 16px;margin:8px 0;font-size:26px;text-align:right;background:var(--paper)}
+.col .ln{border-top:2px solid var(--ink);margin:2px 0}
+svg text{fill:var(--ink);font-family:'Caveat','Segoe Print','Comic Sans MS',cursive}
+svg .n{fill:var(--red);font-size:15px}
+svg line{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+table{border-collapse:collapse;width:100%}td{border-bottom:1px solid var(--line);padding:4px 6px;vertical-align:top}
+.nm{display:inline-block;padding-top:4px;border-top:2px solid var(--ink);border-radius:50% 50% 0 0/9px 9px 0 0}
+.fo{font-size:26px;margin:4px 0}.sm{font-size:18px;color:var(--mut)}.nl{display:flex;gap:24px;align-items:baseline;flex-wrap:wrap}
+.err{color:var(--red)}
+</style>
+</head>
+<body>
+<h1>Химия-тетрадь</h1>
+<div class="pan">
+<textarea id="q" rows="3" placeholder="2,2,4-триметилгептан +Г1 -Г2&#10;2,4-диметилгексан И"></textarea>
+<div class="row">
+<label><input type="checkbox" id="mi" checked> И</label>
+<label><input type="checkbox" id="mp"> +Г <input id="kp" type="number" min="1" max="10" value="1"></label>
+<label><input type="checkbox" id="mm"> −Г <input id="km" type="number" min="1" max="10" value="1"></label>
+<label><input type="checkbox" id="fh"> все H</label>
+<button id="go">Решить</button>
+</div>
+<small>Одно вещество на строку: алканы, алкены, алкины, диены, циклоалканы, арены, спирты, амины, альдегиды, кислоты (пентанол-2, 2-метилбутаналь, бутановая кислота). Отмечай режимы галочками или пиши прямо в строке: 2,2,4-триметилгептан +Г1 -Г2 или 2-метилбутан ±2Г</small>
+</div>
+<details class="pan"><summary>Корни и классы</summary>
+<div>C₁ мет · C₂ эт · C₃ проп · C₄ бут · C₅ пент · C₆ гекс · C₇ гепт · C₈ окт · C₉ нон · C₁₀ дек</div>
+<table><tr><td>Алканы</td><td>CₙH₂ₙ₊₂</td><td>-ан</td></tr><tr><td>Алкены</td><td>CₙH₂ₙ</td><td>-ен (этен)</td></tr><tr><td>Циклоалканы</td><td>CₙH₂ₙ</td><td>цикло…ан</td></tr><tr><td>Алкины</td><td>CₙH₂ₙ₋₂</td><td>-ин (этин)</td></tr><tr><td>Алкадиены</td><td>CₙH₂ₙ₋₂</td><td>-диен (бутадиен-1,3)</td></tr><tr><td>Арены</td><td>CₙH₂ₙ₋₆</td><td>бензол C₆H₆</td></tr><tr><td>Спирты</td><td>CₙH₂ₙ₊₁OH</td><td>-ол</td></tr><tr><td>Амины</td><td>CₙH₂ₙ₊₁NH₂</td><td>-амин</td></tr><tr><td>Альдегиды</td><td>CₙH₂ₙ₊₁CHO</td><td>-аль</td></tr><tr><td>Кислоты</td><td>CₙH₂ₙ₊₁COOH</td><td>-овая кислота</td></tr></table><div>Нумерация цепи: сначала от ФГ (-ол, -NH₂), потом от кратной связи, потом от радикалов. В -аль и -овой кислоте углерод группы входит в цепь (C¹).</div></details>
+<div id="out"></div>
+<script>
+const ST=['','мет','эт','проп','бут','пент','гекс','гепт','окт','нон','дек','ундек','додек'];
+const MU=['','','ди','три','тетра','пента','гекса'];
+const SD='₀₁₂₃₄₅₆₇₈₉';
+const sb=n=>String(n).replace(/\d/g,d=>SD[d]);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const fm=(n,h=2*n+2,o=0,q=0)=>'C'+(n>1?'<sub>'+n+'</sub>':'')+'H'+(h>1?'<sub>'+h+'</sub>':'')+(q?'N'+(q>1?'<sub>'+q+'</sub>':''):'')+(o?'O'+(o>1?'<sub>'+o+'</sub>':''):'');
+
+function bfs(adj,s){const par=Array(adj.length).fill(-2),d=Array(adj.length).fill(0),q=[s];par[s]=-1;
+ for(let i=0;i<q.length;i++){const v=q[i];for(const u of adj[v])if(par[u]===-2){par[u]=v;d[u]=d[v]+1;q.push(u)}}return{par,d,q}}
+function enc(adj,v,p){return '('+(adj.f&&adj.f[v]?'['+adj.f[v]+']':'')+adj[v].filter(u=>u!==p).map(u=>'-=#'[bo(adj,u,v)-1]+enc(adj,u,v)).sort().join('')+')'}
+function canon(adj){if(adj.ring)return canonR(adj);const a=bfs(adj,0),u=a.q[a.q.length-1],b=bfs(adj,u),w=b.q[b.q.length-1],p=[];
+ for(let x=w;x!==-1;x=b.par[x])p.push(x);const L=p.length,c=[p[(L-1)>>1],p[L>>1]];
+ return c[0]===c[1]?enc(adj,c[0],-1):[enc(adj,c[0],c[1]),enc(adj,c[1],c[0])].sort().join('|'+bo(adj,c[0],c[1]))}
+const cache={1:[[[]]]};
+function gen(n){if(cache[n])return cache[n];const seen=new Map();
+ for(const t of gen(n-1))for(let v=0;v<t.length;v++){if(t[v].length>=4)continue;
+  const a=t.map(x=>x.slice());a.push([v]);a[v].push(t.length);const k=canon(a);if(!seen.has(k))seen.set(k,a)}
+ return cache[n]=[...seen.values()]}
+
+const bo=(a,u,v)=>(a.b&&a.b[u<v?u+','+v:v+','+u])||1;
+const val=(a,v)=>a[v].reduce((t,u)=>t+bo(a,u,v),0)+(a.f&&a.f[v]?FGD[a.f[v]][0]:0);
+const H=a=>a.reduce((t,_,v)=>t+4-val(a,v),0)+Object.values(a.f||{}).reduce((t,g)=>t+FGD[g][1],0);
+const MB=a=>Object.keys(a.b||{}).length;
+const cp=a=>{const c=a.map(x=>x.slice());c.b={...(a.b||{})};c.ring=a.ring;c.ar=a.ar;c.f={...(a.f||{})};return c};
+function endg(L,d,t,ft,fl){const mu=a=>a.length>1?MU[a.length]:'',FS={OH:'ол',NH2:'амин',CHO:'аль',COOH:'овая кислота'},al=ft==='OH'||ft==='NH2';
+ if(!d.length&&!t.length){let r=ST[L]+'ан';if(ft){r+=mu(fl)+FS[ft];if(al&&L>2)r+='-'+fl.join(',')}return r}
+ const ps=[];if(d.length)ps.push(mu(d)+'ен-'+d.join(','));if(t.length)ps.push(mu(t)+'ин-'+t.join(','));
+ if(!ft&&L<=3&&ps.length===1&&d.length+t.length===1)ps[0]=ps[0].replace(/-\d+$/,'');
+ let r=ST[L]+((d.length?d.length>1:t.length>1)?'а':'')+ps.join('-');
+ if(ft){r+='-'+mu(fl)+FS[ft];if(al)r+='-'+fl.join(',')}return r}
+function genU(n,o){const seen=new Map();
+ for(const t of gen(n))for(let v=0;v<n;v++)for(const u of t[v]){if(u<v)continue;
+  const c=cp(t);c.b[v+','+u]=o;if(val(c,v)>4||val(c,u)>4)continue;const k=canon(c);if(!seen.has(k))seen.set(k,c)}
+ return[...seen.values()]}
+let FULL=0;
+const FGD={OH:[1,1],NH2:[1,2],CHO:[2,0],COOH:[3,1]},PF={OH:'гидрокси',NH2:'амино',CHO:'формил',COOH:'карбокси'};
+const fgT=a=>['COOH','CHO','OH','NH2'].find(x=>Object.values(a.f||{}).includes(x))||'';
+const FC=a=>Object.keys(a.f||{}).length;
+const hetero=a=>{let o=0,n=0;for(const g of Object.values(a.f||{})){if(g==='NH2')n++;else o+=g==='COOH'?2:1}return[o,n]};
+function genF(n,ft){const seen=new Map();for(const t of gen(n))for(let v=0;v<n;v++){if((ft==='CHO'||ft==='COOH')&&n>1&&t[v].length!==1)continue;
+ const c=cp(t);c.f[v]=ft;if(val(c,v)>4)continue;const k=canon(c);if(!seen.has(k))seen.set(k,c)}return[...seen.values()]}
+function mkRing(m,ar){const a=Array.from({length:m},(_,i)=>[(i+m-1)%m,(i+1)%m]);a.ring=[...a.keys()];a.ar=ar;a.b={};if(ar)for(let i=0;i<m;i+=2)a.b[i+','+(i+1)]=2;return a}
+function canonR(adj){const R=adj.ring,m=R.length,S=new Set(R),e=R.map(v=>'('+adj[v].filter(u=>!S.has(u)).map(u=>enc(adj,u,v)).sort().join('')+')'),c=[];
+ for(const d of[1,-1])for(let s=0;s<m;s++)c.push(e.map((_,i)=>e[((s+d*i)%m+m)%m]).join(''));return 'R'+m+(adj.ar?'a':'')+c.sort()[0]}
+function genRing(n,ar){const out=[];for(let m=ar?6:3;m<=(ar?Math.min(6,n):n);m++){let lv=[mkRing(m,ar)];
+ for(let k=m;k<n;k++){const seen=new Map();for(const t of lv)for(let v=0;v<t.length;v++){if(val(t,v)>=4)continue;
+  const c=cp(t);c.push([v]);c[v].push(c.length-1);const key=canon(c);if(!seen.has(key))seen.set(key,c)}lv=[...seen.values()]}
+ out.push(...lv)}return out}
+function nameRing(adj){const R=adj.ring,m=R.length,S=new Set(R),cs=[];
+ for(const d of[1,-1])for(let st=0;st<m;st++){const p=R.map((_,i)=>R[((st+d*i)%m+m)%m]),subs=[];
+  p.forEach((v,i)=>adj[v].forEach(u=>{if(!S.has(u))subs.push({loc:i+1,nm:rad(adj,u,v)})}));
+  sortS(subs);cs.push({p,subs,str:fmt(subs),ml:[]})}
+ const b=pick(cs),root=adj.ar?'бензол':'цикло'+ST[m]+'ан',one=b.subs.length===1,x=one?(cx(b.subs[0].nm)?'('+b.subs[0].nm+')':b.subs[0].nm):b.str;
+ return{name:x+root,path:b.p,ns:b.subs.length,ml:[],fl:[],pre:b.str,sk:''}}
+function cls(a){const ft=fgT(a);if(ft&&!a.ring)return({OH:'Спирт · CₙH₂ₙ₊₁OH',NH2:'Амин · CₙH₂ₙ₊₁NH₂',CHO:'Альдегид · CₙH₂ₙ₊₁CHO',COOH:'Карбоновая кислота · CₙH₂ₙ₊₁COOH'})[ft]+(FC(a)>1?' · несколько групп':'')+(MB(a)?' · с кратной связью':'');const v=Object.values(a.b||{}),d=v.filter(x=>x===2).length,t=v.filter(x=>x===3).length;
+ return a.ar?'Арен · CₙH₂ₙ₋₆':a.ring?'Циклоалкан · CₙH₂ₙ':t?(t>1?'Алкадиин':'Алкин')+' · CₙH₂ₙ₋₂':d>2?'Полиен':d>1?'Алкадиен · CₙH₂ₙ₋₂':d?'Алкен · CₙH₂ₙ':'Алкан · CₙH₂ₙ₊₂'}
+function cands(g,mo,o){const out=[];
+ if(g.ar){const L=[];for(let v=g.length-1;v>=0;v--)if(!g.ring.includes(v)&&g[v].length===1)L.push(v);
+  if(mo==='P'){for(const v of[...L,...g.ring.filter(v=>val(g,v)<4)]){const h=cp(g);h.push([v]);h[v].push(h.length-1);out.push(h)}}
+  else for(const v of L)out.push(rm(g,v));return out}
+ if(g.ring){const R=g.ring,m=R.length;
+  for(let i=m-1;i>=0;i--){const v=R[i],a=R[(i+m-1)%m],b=R[(i+1)%m],h=cp(g);
+   if(mo==='P'){const w=h.length;h.push([v,b]);h[v]=h[v].map(u=>u===b?w:u);h[b]=h[b].map(u=>u===v?w:u);h.ring=[...R.slice(0,i+1),w,...R.slice(i+1)];out.push(h)}
+   else if(m>3&&g[v].length===2){h[a]=h[a].map(u=>u===v?b:u);h[b]=h[b].map(u=>u===v?a:u);out.push(rm(h,v))}}
+  return out}
+ const e=o.path;for(const side of[1,0]){const v=side?e[e.length-1]:e[0];
+  if(mo==='P'){const h=cp(g);h.push([v]);h[v].push(h.length-1);out.push(h)}
+  else if(e.length>1&&bo(g,v,side?e[e.length-2]:e[1])===1)out.push(rm(g,v))}
+ return out}
+function drawR(adj,path){const m=path.length,r=24/Math.sin(Math.PI/m),P={},ed=[],S=new Set(path);
+ path.forEach((v,i)=>{const t=-Math.PI/2+2*Math.PI*i/m,c=Math.cos(t),s=Math.sin(t);P[v]=[r*c,r*s,c,s];ed.push([v,path[(i+1)%m]])});
+ const br=(v,p,ux,uy)=>{adj[v].filter(u=>u!==p&&!S.has(u)).sort((a,b)=>depth(adj,b,v)-depth(adj,a,v)).forEach((u,i)=>{
+  let ex=ux,ey=uy;if(i>0){const q=i%2?1:-1;ex=-uy*q;ey=ux*q}
+  P[u]=[P[v][0]+ex*46,P[v][1]+ey*46];ed.push([v,u]);br(u,v,ex,ey)})};
+ path.forEach(v=>br(v,-1,P[v][2],P[v][3]));
+ const V=Object.values(P),x0=Math.min(...V.map(q=>q[0]))-36,y0=Math.min(...V.map(q=>q[1]))-36,W=Math.max(...V.map(q=>q[0]))-x0+36,Hh=Math.max(...V.map(q=>q[1]))-y0+36,
+ px=v=>P[v][0]-x0,py=v=>P[v][1]-y0;
+ let o=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" style="max-width:none">`;
+ for(const[a,b]of ed){const dx=px(b)-px(a),dy=py(b)-py(a),L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,t=18,o2=bo(adj,a,b);
+  for(const f of(o2===1?[0]:o2===2?[-3.5,3.5]:[-6,0,6]))o+=`<line x1="${px(a)+ux*t-uy*f}" y1="${py(a)+uy*t+ux*f}" x2="${px(b)-ux*t-uy*f}" y2="${py(b)-uy*t+ux*f}"/>`}
+ Object.keys(P).forEach(v=>{const h=FULL?0:4-val(adj,v);
+  o+=`<text x="${px(v)}" y="${py(v)+7}" text-anchor="middle" font-size="24" font-weight="700">C${h?'H':''}${h>1?`<tspan dy="5" font-size="15">${h}</tspan>`:''}</text>`});
+ path.forEach((v,i)=>o+=`<text class="n" x="${px(v)+14}" y="${py(v)-12}" text-anchor="middle" font-weight="700">${i+1}</text>`);
+ return o+'</svg>'}
+function paths(adj){const n=adj.length;if(n===1)return[[0]];const ft=fgT(adj),F=adj.f||{},gt=(a,b)=>a[0]-b[0]||a[1]-b[1]||a[2]-b[2];let best=null,res=[];
+ for(let s=0;s<n;s++){if(adj[s].length!==1)continue;const{par}=bfs(adj,s);
+  for(let t=0;t<n;t++){if(t===s||adj[t].length!==1)continue;
+   const p=[];for(let x=t;x!==-1;x=par[x])p.push(x);p.reverse();
+   let m=0,fc=0;for(let i=0;i<p.length-1;i++)if(bo(adj,p[i],p[i+1])>1)m++;for(const x of p)if(F[x]&&F[x]===ft)fc++;
+   const sc=[fc,m,p.length];if(!best||gt(sc,best)>0){best=sc;res=[]}if(!gt(sc,best))res.push(p)}}
+ return res}
+const cx=s=>/\d/.test(s);
+const key=s=>s.replace(/^[^а-я]+/,'');
+function fmt(subs){const g={};subs.forEach(s=>(g[s.nm]=g[s.nm]||[]).push(s.loc));
+ return Object.keys(g).sort((a,b)=>key(a).localeCompare(key(b),'ru')).map(nm=>{
+  const l=g[nm].sort((a,b)=>a-b);return l.join(',')+'-'+(l.length>1?MU[l.length]:'')+(cx(nm)?'('+nm+')':nm)}).join('-')}
+const sortS=s=>s.sort((a,b)=>a.loc-b.loc||(a.nm<b.nm?-1:a.nm>b.nm?1:0));
+function pick(cs){return cs.sort((a,b)=>{const f1=a.fl||[],f2=b.fl||[];for(let i=0;i<f1.length;i++)if(f1[i]!==f2[i])return f1[i]-f2[i];const x=a.ml||[],y=b.ml||[];for(let i=0;i<x.length;i++)if(x[i]!==y[i])return x[i]-y[i];if(a.subs.length!==b.subs.length)return b.subs.length-a.subs.length;
+ for(let i=0;i<a.subs.length;i++)if(a.subs[i].loc!==b.subs[i].loc)return a.subs[i].loc-b.subs[i].loc;
+ return a.str<b.str?-1:a.str>b.str?1:0})[0]}
+function dp(adj,v,p){const k=adj[v].filter(u=>u!==p);if(!k.length)return[[v]];let r=[],m=0;
+ for(const u of k)for(const q of dp(adj,u,v)){if(q.length>m){m=q.length;r=[]}if(q.length===m)r.push([v,...q])}return r}
+function rad(adj,v,p){const cs=dp(adj,v,p).map(q=>{const S=new Set(q),subs=[];
+ q.forEach((x,i)=>adj[x].forEach(u=>{if(!S.has(u)&&!(i===0&&u===p))subs.push({loc:i+1,nm:rad(adj,u,x)})}));
+ q.forEach((x,i)=>{if(adj.f&&adj.f[x])subs.push({loc:i+1,nm:PF[adj.f[x]]})});sortS(subs);return{p:q,subs,str:fmt(subs)}});const b=pick(cs);return b.str+ST[b.p.length]+'ил'}
+function nameTree(adj){if(adj.ring)return nameRing(adj);const F=adj.f||{},ft=fgT(adj);
+ const cs=paths(adj).map(p=>{const S=new Set(p),subs=[],d=[],t=[],fl=[];
+  p.forEach((v,i)=>{adj[v].forEach(u=>{if(!S.has(u))subs.push({loc:i+1,nm:rad(adj,u,v)})});
+   if(F[v]&&F[v]===ft)fl.push(i+1);else if(F[v])subs.push({loc:i+1,nm:PF[F[v]]});
+   if(i<p.length-1){const o=bo(adj,v,p[i+1]);if(o===2)d.push(i+1);if(o===3)t.push(i+1)}});
+  sortS(subs);return{p,subs,d,t,fl,ml:[...d,...t].sort((a,b)=>a-b),str:fmt(subs)}});const b=pick(cs);
+ return{name:b.str+endg(b.p.length,b.d,b.t,ft,b.fl),path:b.p,ns:b.subs.length,ml:b.ml,fl:b.fl,pre:b.str,sk:b.d+'|'+b.t+'|'+b.fl+ft}}
+const chainA=L=>Array.from({length:L},(_,i)=>[...(i?[i-1]:[]),...(i<L-1?[i+1]:[])]);
+function parseRad(s){const m=s.match(/^(.*?)(мет|эт|проп|бут|пент|гекс|гепт|окт)ил$/);if(!m)return null;
+ const a=chainA(ST.indexOf(m[2])),re=/(\d+(?:,\d+)*)-?(ди|три|тетра)?(мет|эт|проп|бут)ил-?/g;let r,last=0;
+ while((r=re.exec(m[1]))){if(r.index!==last)return null;last=re.lastIndex;
+  const locs=r[1].split(',').map(Number),k=r[2]?MU.indexOf(r[2]):1;if(locs.length!==k)return null;const L=ST.indexOf(r[3]);
+  for(const p of locs){if(p<1||p>a.length)return null;let prev=p-1;for(let i=0;i<L;i++){a.push([prev]);a[prev].push(a.length-1);prev=a.length-1}}}
+ return last===m[1].length?a:null}
+function parseName(s){s=s.trim().replace(/ё/g,'е').replace(/толуол$/,'метилбензол').replace(/изопропил/g,'(1-метилэтил)').replace(/изобутил/g,'(2-метилпропил)').replace(/втор-?бутил/g,'(1-метилпропил)').replace(/трет-?бутил/g,'(1,1-диметилэтил)');
+ const rg=s.match(/(?:цикло(мет|эт|проп|бут|пент|гекс|гепт|окт|нон|дек)ан|(бензол))$/),m=rg||s.match(/(мет|эт|проп|бут|пент|гекс|гепт|окт|нон|дек|ундек|додек)(?:ан|а?(ди|три)?(ен|ин)(?:-(\d+(?:,\d+)*))?-?)(?:(ди|три)?(ол|амин)(?:-(\d+(?:,\d+)*))?|(ди)?(аль|овая кислота))?$/);if(!m)return null;
+ const n=rg?(rg[2]?6:ST.indexOf(rg[1])):ST.indexOf(m[1]);if(rg&&n<3)return null;
+ let pre=s.slice(0,m.index);if(rg&&/^[а-я(]/.test(pre))pre='1-'+pre;
+ const adj=rg?mkRing(n,!!rg[2]):[];
+ if(!rg){adj.b={};for(let i=0;i<n;i++)adj.push([]);for(let i=0;i<n-1;i++){adj[i].push(i+1);adj[i+1].push(i)}}
+ const re=/(\d+(?:,\d+)*)-?(ди|три|тетра|пента)?(?:(мет|эт|проп|бут|пент|гекс)ил|\(([^)]+)\))-?/g;let r,last=0;
+ while((r=re.exec(pre))){if(r.index!==last)return null;last=re.lastIndex;
+  const locs=r[1].split(',').map(Number),k=r[2]?MU.indexOf(r[2]):1;if(locs.length!==k)return null;
+  const sub=r[3]?chainA(ST.indexOf(r[3])):parseRad(r[4]);if(!sub)return null;
+  for(const p of locs){if(p<1||p>n)return null;const b0=adj.length;sub.forEach(a=>adj.push(a.map(u=>u+b0)));adj[p-1].push(b0);adj[b0].push(p-1)}}
+ if(last!==pre.length)return null;
+ if(!rg&&m[3]){const o=m[3]==='ен'?2:3,locs=m[4]?m[4].split(',').map(Number):[1],k=m[2]?MU.indexOf(m[2]):1;
+  if(locs.length!==k)return null;
+  for(const l of locs){if(l<1||l>=n)return null;adj.b[(l-1)+','+l]=o}}
+ if(!rg&&(m[6]||m[9])){const g=m[6]?(m[6]==='ол'?'OH':'NH2'):(m[9]==='аль'?'CHO':'COOH'),k=m[6]?(m[5]?MU.indexOf(m[5]):1):(m[8]?2:1);
+  const ls=m[6]?(m[7]?m[7].split(',').map(Number):n<=2?Array.from({length:k},(_,i)=>i+1):null):(k===2?[1,n]:[1]);
+  if(!ls||ls.length!==k||new Set(ls).size!==k||ls.some(l=>l<1||l>n))return null;
+  adj.f={};ls.forEach(l=>adj.f[l-1]=g)}
+ if(adj.some((_,v)=>val(adj,v)>4))return 'val';return adj}
+const rm=(adj,v)=>{const r=adj.filter((_,i)=>i!==v).map(a=>a.filter(u=>u!==v).map(u=>u>v?u-1:u));r.b={};
+ for(const k in adj.b){const[i,j]=k.split(',').map(Number);if(i===v||j===v)continue;r.b[(i>v?i-1:i)+','+(j>v?j-1:j)]=adj.b[k]}r.f={};for(const k in adj.f){if(+k!==v)r.f[+k>v?+k-1:+k]=adj.f[k]}if(adj.ring){r.ring=adj.ring.filter(x=>x!==v).map(x=>x>v?x-1:x);r.ar=adj.ar}return r};
+
+function depth(adj,v,p){let m=0;for(const u of adj[v])if(u!==p)m=Math.max(m,depth(adj,u,v));return m+1}
+function draw(adj,path){if(adj.ring)return drawR(adj,path);const pos={},ed=[],S=new Set(path);
+ path.forEach((v,i)=>{pos[v]=[i,0];if(i)ed.push([path[i-1],v])});
+ function br(v,p,dx,dy){adj[v].filter(u=>u!==p&&!S.has(u)).sort((a,b)=>depth(adj,b,v)-depth(adj,a,v)).forEach((u,i)=>{
+  let ex=dx,ey=dy;if(i>0){const s=i%2?1:-1;ex=dy?s:0;ey=dy?0:s}
+  pos[u]=[pos[v][0]+ex,pos[v][1]+ey];ed.push([v,u]);br(u,v,ex,ey)})}
+ path.forEach(v=>adj[v].filter(u=>!S.has(u)).forEach((u,i)=>{const ey=i?-1:1;
+  pos[u]=[pos[v][0],pos[v][1]+ey];ed.push([v,u]);br(u,v,0,ey)}));
+ let id=adj.length;const lab={},DB=new Set();
+ if(adj.f)Object.keys(adj.f).forEach(k=>{const v=+k,g=adj.f[k],used=new Set(adj[v].map(u=>(pos[u][0]-pos[v][0])+','+(pos[u][1]-pos[v][1])));
+  const parts=g==='OH'?[['OH']]:g==='NH2'?[['NH₂']]:g==='CHO'?[['O',1],['H']]:[['O',1],['OH']],
+   order=g==='CHO'||g==='COOH'?[[0,-1],[0,1],[1,0],[-1,0]]:[[0,1],[0,-1],[1,0],[-1,0]];
+  for(const[t,dbl]of parts){const d=order.find(q=>!used.has(q[0]+','+q[1]));if(!d)break;used.add(d[0]+','+d[1]);pos[id]=[pos[v][0]+d[0],pos[v][1]+d[1]];lab[id]=t;ed.push([v,id]);if(dbl)DB.add(v+','+id);id++}});
+ if(FULL){Object.keys(pos).map(Number).filter(v=>v<adj.length).forEach(v=>{const used=new Set(ed.filter(e=>e[0]===v||e[1]===v).map(e=>{const u=e[0]===v?e[1]:e[0];return(pos[u][0]-pos[v][0])+','+(pos[u][1]-pos[v][1])}));let h=4-val(adj,v);
+  for(const[dx,dy]of[[0,-1],[0,1],[-1,0],[1,0]]){if(h<=0)break;if(used.has(dx+','+dy))continue;pos[id]=[pos[v][0]+dx,pos[v][1]+dy];ed.push([v,id]);id++;h--}})}
+ const X=62,Y=46,P=Object.values(pos),x0=Math.min(...P.map(p=>p[0])),x1=Math.max(...P.map(p=>p[0])),
+ y0=Math.min(...P.map(p=>p[1])),y1=Math.max(...P.map(p=>p[1])),W=(x1-x0)*X+64,H=(y1-y0)*Y+60,
+ px=v=>(pos[v][0]-x0)*X+32,py=v=>(pos[v][1]-y0)*Y+32;
+ let o=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="max-width:none">`;
+ for(const[a,b]of ed){const dx=px(b)-px(a),dy=py(b)-py(a),L=Math.hypot(dx,dy),t=dy?15:21,ux=dx/L,uy=dy/L;
+  const o2=DB.has(a+','+b)?2:bo(adj,a,b);for(const f of(o2===1?[0]:o2===2?[-3.5,3.5]:[-6,0,6]))o+=`<line x1="${px(a)+ux*t-uy*f}" y1="${py(a)+uy*t+ux*f}" x2="${px(b)-ux*t-uy*f}" y2="${py(b)-uy*t+ux*f}"/>`}
+ Object.keys(pos).forEach(v=>{if(v>=adj.length){o+=`<text x="${px(v)}" y="${py(v)+7}" text-anchor="middle" font-size="22" font-weight="700">${lab[v]||'H'}</text>`;return}const h=FULL?0:4-val(adj,v);
+  o+=`<text x="${px(v)}" y="${py(v)+7}" text-anchor="middle" font-size="24" font-weight="700">C${h?'H':''}${h>1?`<tspan dy="5" font-size="15">${h}</tspan>`:''}</text>`});
+ path.forEach((v,i)=>o+=`<text class="n" x="${px(v)+13}" y="${py(v)-12}" text-anchor="middle" font-weight="700">${i+1}</text>`);
+ return o+'</svg>'}
+
+const card=(t,body,cls='')=>`<div class="card ${cls}"><div class="ti">${t}</div>${body}</div>`;
+const nm=s=>`<span class="nm">${s}</span>`;
+const nameOf=a=>{const r=nameTree(a);return{...r,svg:draw(a,r.path)}};
+const bad=(t,b)=>card(`<span class="err">${t}</span>`,b);
+
+function solve(line,defs){
+ let t=line.trim().replace(/[₀-₉]/g,c=>SD.indexOf(c)).replace(/[−–]/g,'-').toLowerCase(),md=[];
+ const re=/(?:^|\s)(и|[+±-]?\d*г\d*)(?=\s|$)/g;
+ for(const m of t.matchAll(re)){const s=m[1];if(s==='и'){md.push(['I',0]);continue}
+  const q=+s.replace(/\D/g,'')||1,c=s[0];if(c!=='-')md.push(['P',q]);if(c==='-'||c==='±')md.push(['M',q])}
+ t=t.replace(re,' ').trim();if(!md.length)md=defs;
+ md.sort((a,b)=>'IPM'.indexOf(a[0])-'IPM'.indexOf(b[0]));
+ const adj=parseName(t);
+ if(!adj||adj==='val')return{html:bad('Не получилось',esc(line)+(adj==='val'?': нарушена валентность углерода.':': не распознал название. Пример: 2,4-диметилгексан.')),sum:esc(line)+' — ошибка'};
+ const n=adj.length,me=nameOf(adj),sm=[],hs={};
+ let h=card(`Дано: ${nm(me.name)}`,me.svg+`<div class="fo">${fm(n,H(adj),...hetero(adj))}</div><div class="sm">${cls(adj)}</div>`);
+ for(const[mo,k]of md){
+  if(mo==='I'){
+   if((MB(adj)>1&&!adj.ring)||FC(adj)>1||(FC(adj)&&MB(adj))){h+=bad('И','Изомеры для нескольких кратных связей или групп пока не умею.');continue}
+   if(n>12){h+=bad('И','Для режима И поддерживаю до 12 атомов углерода.');continue}
+   const k0=canon(adj),L=(adj.ring?genRing(n,adj.ar):FC(adj)?genF(n,fgT(adj)):MB(adj)?genU(n,Math.max(...Object.values(adj.b))):gen(n)).map(a=>({key:canon(a),...nameOf(a)}));
+   L.sort((x,y)=>y.path.length-x.path.length||(x.fl[0]||0)-(y.fl[0]||0)||(x.ml[0]||0)-(y.ml[0]||0)||x.ns-y.ns||(x.name<y.name?-1:1));
+   h+=card(`Изомеры ${fm(n,H(adj),...hetero(adj))}: всего <b>${L.length}</b>`,'');
+   let c=0;L.forEach(x=>{const own=x.key===k0,st=x.ns===0;
+    h+=card((st?'':`<b>И${sb(++c)}</b>`)+(own?' ← заданное вещество':''),x.svg+`<div class="nl">${nm(st&&!x.ml.length&&!x.fl.length&&!adj.ring?'н-'+x.name:x.name)}<span class="fo">${fm(n,H(adj),...hetero(adj))}</span></div>`,own?'hl':'')});
+   sm.push('изомеров: '+L.length);continue}
+  const sg=mo==='P'?'+':'−';
+  if(mo==='M'&&n-k<1){h+=bad(sg+'Г'+sb(k),`Из ${n} атомов C нельзя убрать ${k} групп CH<sub>2</sub>.`);continue}
+  let g=cp(adj),dn=0;
+  for(let j=0;j<k;j++){const o=nameTree(g);let ok=0;
+   for(const h2 of cands(g,mo,o)){const q=nameTree(h2);if(g.ar||(q.pre===o.pre&&q.sk===o.sk)){g=h2;ok=1;break}}
+   if(!ok)break;dn++}
+  if(!dn){h+=bad(sg+'Г'+sb(k),'Так нельзя: у гомолога меняется только корень, а приставки и суффикс остаются прежними.');continue}
+  const note=dn<k?`<div class="sm">${sg}Г${sb(k)} невозможен: радикал или кратная связь не помещается в цепь. Максимум: ${sg}Г${sb(dn)}.</div>`:'';
+  const hm=nameOf(g),n2=g.length,A=[n,H(adj),...hetero(adj)],B=[n2,H(g),...hetero(g)],[bg,lw]=n>=n2?[A,B]:[B,A];
+  hs[mo]=B;hs[mo+'k']=dn;
+  h+=card(`${sg}Г${sb(dn)}: ${nm(hm.name)}`,note+hm.svg+`<div class="fo">${fm(...B)}</div><div class="col"><div>−&nbsp;${fm(...bg)}</div><div>&nbsp;&nbsp;${fm(...lw)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(dn,2*dn)}${dn>1?` <span class="sm">= ${dn}·CH<sub>2</sub></span>`:''}</div></div>`);
+  sm.push(`${sg}Г${dn} → ${hm.name}`)}
+ if(hs.P&&hs.M){const t=hs.Pk+hs.Mk;h+=card('Разность гомологов',`<div class="col"><div>−&nbsp;${fm(...hs.P)}</div><div>&nbsp;&nbsp;${fm(...hs.M)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(t,2*t)}${t>1?` <span class="sm">= ${t}·CH<sub>2</sub></span>`:''}</div></div>`)}
+ return{html:h,sum:`${esc(me.name)} · ${fm(n,H(adj),...hetero(adj))} · ${sm.join('; ')}`}}
+
+document.getElementById('go').onclick=()=>{
+ const g=id=>document.getElementById(id),kk=id=>Math.max(1,+g(id).value||1),d=[];
+ FULL=g('fh').checked;if(g('mi').checked)d.push(['I',0]);if(g('mp').checked)d.push(['P',kk('kp')]);if(g('mm').checked)d.push(['M',kk('km')]);
+ const rs=g('q').value.split('\n').filter(l=>l.trim()).map(l=>solve(l,d));let h=rs.map(r=>r.html).join('');
+ if(rs.length>1)h+=card('<b>Сводка</b>','<table>'+rs.map((r,i)=>`<tr><td>${i+1}</td><td>${r.sum}</td></tr>`).join('')+'</table>');
+ g('out').innerHTML=h||card('','Введи вещество, например 2,2,4-триметилгептан.')};
+</script>
+</body>
+</html>

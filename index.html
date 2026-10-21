@@ -21,6 +21,9 @@
  --soft:rgba(29,58,138,.08);--sh:0 1px 2px rgba(40,40,60,.07),0 10px 24px -12px rgba(40,40,60,.28);color-scheme:light}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171c;--paper:#1f232b;--grid:#2a3750;--ink:#a9c0ff;--red:#ff8a8f;--mut:#9aa3b2;--line:#394150;--hl:#3a3520;--soft:rgba(169,192,255,.1);--sh:0 1px 2px rgba(0,0,0,.4),0 10px 24px -12px rgba(0,0,0,.7);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#15171c;--paper:#1f232b;--grid:#2a3750;--ink:#a9c0ff;--red:#ff8a8f;--mut:#9aa3b2;--line:#394150;--hl:#3a3520;--soft:rgba(169,192,255,.1);--sh:0 1px 2px rgba(0,0,0,.4),0 10px 24px -12px rgba(0,0,0,.7);color-scheme:dark}
+:root{--cp:#d9640b;--cr:#2a56d6;--cs:#1f8a4c;--caret:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8' preserveAspectRatio='none'%3E%3Cpath d='M0 7.5 10 1 20 7.5' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--cp:#ffb066;--cr:#a9c0ff;--cs:#6fdc9a}}
+:root[data-theme="dark"]{--cp:#ffb066;--cr:#a9c0ff;--cs:#6fdc9a}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:500 21px/1.3 'Caveat','Segoe Print','Comic Sans MS',cursive;-webkit-tap-highlight-color:transparent}
@@ -52,14 +55,10 @@ input[type=number]{width:54px;padding:2px 4px;text-align:center;border-radius:8p
 .pill .hint{color:var(--mut);font-size:17px}
 button{font:700 21px 'Caveat','Segoe Print','Comic Sans MS',cursive;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:6px 20px;min-height:44px;cursor:pointer;transition:transform .08s,filter .15s}
 button:active{transform:scale(.97)}
-button:focus-visible,.chip:focus-visible{outline:3px solid var(--soft);outline-offset:2px}
+button:focus-visible{outline:3px solid var(--soft);outline-offset:2px}
 .go{flex:1 1 150px;font-size:25px;box-shadow:var(--sh)}
 .go:hover{filter:brightness(1.1)}
 .ghost{background:transparent;color:var(--mut);border:1.5px solid var(--line)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
-.chips .lbl{color:var(--mut);font-size:18px}
-.chip{font:600 19px 'Caveat','Segoe Print',cursive;background:var(--soft);color:var(--ink);border:1px dashed var(--ink);border-radius:999px;padding:2px 12px;min-height:34px}
-.chip:hover{filter:none;background:var(--hl)}
 small{color:var(--mut);font-size:17px;display:block;margin-top:10px;line-height:1.2}
 details.pan{padding:0}
 details.pan>summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -76,13 +75,18 @@ svg .n{fill:var(--red);font-size:15px}
 svg line{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
 .ic svg{stroke-width:2}
 table{border-collapse:collapse;width:100%}td{border-bottom:1px solid var(--line);padding:4px 6px;vertical-align:top}
-.nm{display:inline-block;padding-top:4px;border-top:2px solid var(--ink);border-radius:50% 50% 0 0/9px 9px 0 0}
+.nm{display:inline}
+.pf,.rt,.sf{position:relative;display:inline-block;white-space:nowrap;padding-top:5px}
+.pf::before,.rt::before,.sf::before{content:'';position:absolute;top:0;left:2px;right:2px;height:7px}
+.pf::before{border-top:2px solid var(--cp);border-right:2px solid var(--cp)}
+.rt::before{border-top:2px solid var(--cr);border-radius:50% 50% 0 0/100% 100% 0 0}
+.sf::before{left:50%;right:auto;width:min(calc(100% - 4px),44px);transform:translateX(-50%);background:var(--cs);-webkit-mask:var(--caret) 0 0/100% 100% no-repeat;mask:var(--caret) 0 0/100% 100% no-repeat}
 .fo{font-size:26px;margin:4px 0}.sm{font-size:18px;color:var(--mut)}.nl{display:flex;gap:24px;align-items:baseline;flex-wrap:wrap}
 .err{color:var(--red)}
 .empty{text-align:center;padding:26px 14px;color:var(--mut)}
 .empty img{width:72px;height:72px;border-radius:18px;margin-bottom:6px;opacity:.9}
 .foot{text-align:center;color:var(--mut);font-size:16px;margin-top:22px}
-#inst[hidden],.ios[hidden]{display:none}
+#inst[hidden]{display:none}
 @media(max-width:520px){body{font-size:20px}h1{font-size:30px}.pill{padding-right:12px}}
 @media print{.top .ic,.pan,.foot{display:none}.card{box-shadow:none;break-inside:avoid}}
 </style>
@@ -98,41 +102,26 @@ table{border-collapse:collapse;width:100%}td{border-bottom:1px solid var(--line)
 
 <div class="pan">
 <textarea id="q" rows="3" placeholder="2,2,4-триметилгептан +Г1 -Г2&#10;2,4-диметилгексан И" aria-label="Названия веществ, по одному на строку" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
-<div class="chips"><span class="lbl">Примеры:</span>
- <button type="button" class="chip" data-ex="2,2,4-триметилгептан">алкан</button>
- <button type="button" class="chip" data-ex="пентанол-2">спирт</button>
- <button type="button" class="chip" data-ex="бутановая кислота">кислота</button>
- <button type="button" class="chip" data-ex="2-метилбутаналь">альдегид</button>
- <button type="button" class="chip" data-ex="бутадиен-1,3">диен</button>
- <button type="button" class="chip" data-ex="1,2-диметилбензол">арен</button>
-</div>
 <div class="row">
-<label class="pill"><input type="checkbox" id="mi" checked><span class="t">Изомеры <span class="hint">И</span></span></label>
 <label class="pill"><input type="checkbox" id="mp"><span class="t">+Г</span><input id="kp" type="number" min="1" max="10" value="1" inputmode="numeric" aria-label="Сколько гомологических разностей прибавить"></label>
 <label class="pill"><input type="checkbox" id="mm"><span class="t">−Г</span><input id="km" type="number" min="1" max="10" value="1" inputmode="numeric" aria-label="Сколько гомологических разностей отнять"></label>
+<label class="pill"><input type="checkbox" id="mi" checked><span class="t">Изомеры <span class="hint">И</span></span></label>
 <label class="pill"><input type="checkbox" id="fh"><span class="t">Все H</span></label>
 </div>
 <div class="row">
 <button id="go" class="go">Решить</button>
 <button id="clr" class="ghost" type="button">Очистить</button>
 </div>
-<small>Одно вещество на строку: алканы, алкены, алкины, диены, циклоалканы, арены, спирты, амины, альдегиды, кислоты (пентанол-2, 2-метилбутаналь, бутановая кислота). Режимы можно писать прямо в строке: <b>2,2,4-триметилгептан +Г1 -Г2</b> или <b>2-метилбутан ±2Г</b>. Ctrl/⌘ + Enter — решить.</small>
 </div>
 
-<details class="pan"><summary>Корни и классы</summary>
-<div>C₁ мет · C₂ эт · C₃ проп · C₄ бут · C₅ пент · C₆ гекс · C₇ гепт · C₈ окт · C₉ нон · C₁₀ дек</div>
-<table><tr><td>Алканы</td><td>CₙH₂ₙ₊₂</td><td>-ан</td></tr><tr><td>Алкены</td><td>CₙH₂ₙ</td><td>-ен (этен)</td></tr><tr><td>Циклоалканы</td><td>CₙH₂ₙ</td><td>цикло…ан</td></tr><tr><td>Алкины</td><td>CₙH₂ₙ₋₂</td><td>-ин (этин)</td></tr><tr><td>Алкадиены</td><td>CₙH₂ₙ₋₂</td><td>-диен (бутадиен-1,3)</td></tr><tr><td>Арены</td><td>CₙH₂ₙ₋₆</td><td>бензол C₆H₆</td></tr><tr><td>Спирты</td><td>CₙH₂ₙ₊₁OH</td><td>-ол</td></tr><tr><td>Амины</td><td>CₙH₂ₙ₊₁NH₂</td><td>-амин</td></tr><tr><td>Альдегиды</td><td>CₙH₂ₙ₊₁CHO</td><td>-аль</td></tr><tr><td>Кислоты</td><td>CₙH₂ₙ₊₁COOH</td><td>-овая кислота</td></tr></table><div style="margin-top:8px">Нумерация цепи: сначала от ФГ (-ол, -NH₂), потом от кратной связи, потом от радикалов. В -аль и -овой кислоте углерод группы входит в цепь (C¹).</div></details>
-
-<details class="pan ios" id="ios" hidden><summary>Как поставить на рабочий стол</summary>
-<div><b>iPhone / iPad (Safari):</b> кнопка «Поделиться» → «На экран “Домой”».<br><b>Android (Chrome):</b> меню ⋮ → «Установить приложение» (или кнопка ⬇ вверху).<br><b>Компьютер (Chrome / Edge):</b> значок установки в адресной строке.</div></details>
-
-<div id="out"><div class="card empty"><img src="icons/icon-192.png" alt=""><div>Выбери пример или введи название вещества и нажми «Решить».</div></div></div>
+<div id="out"><div class="card empty"><img src="icons/icon-192.png" alt=""><div>Введи название вещества и нажми «Решить».</div></div></div>
 <div class="foot">Химия-тетрадь · работает офлайн после первой загрузки</div>
 </div>
 <script>
 const ST=['','мет','эт','проп','бут','пент','гекс','гепт','окт','нон','дек','ундек','додек'];
 const MU=['','','ди','три','тетра','пента','гекса'];
 const SD='₀₁₂₃₄₅₆₇₈₉';
+const mk=(c,t)=>`<span class="${c}">${t}</span>`,strip=s=>s.replace(/<[^>]+>/g,'');
 const sb=n=>String(n).replace(/\d/g,d=>SD[d]);
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const fm=(n,h=2*n+2,o=0,q=0)=>'C'+(n>1?'<sub>'+n+'</sub>':'')+'H'+(h>1?'<sub>'+h+'</sub>':'')+(q?'N'+(q>1?'<sub>'+q+'</sub>':''):'')+(o?'O'+(o>1?'<sub>'+o+'</sub>':''):'');
@@ -154,12 +143,12 @@ const val=(a,v)=>a[v].reduce((t,u)=>t+bo(a,u,v),0)+(a.f&&a.f[v]?FGD[a.f[v]][0]:0
 const H=a=>a.reduce((t,_,v)=>t+4-val(a,v),0)+Object.values(a.f||{}).reduce((t,g)=>t+FGD[g][1],0);
 const MB=a=>Object.keys(a.b||{}).length;
 const cp=a=>{const c=a.map(x=>x.slice());c.b={...(a.b||{})};c.ring=a.ring;c.ar=a.ar;c.f={...(a.f||{})};return c};
-function endg(L,d,t,ft,fl){const mu=a=>a.length>1?MU[a.length]:'',FS={OH:'ол',NH2:'амин',CHO:'аль',COOH:'овая кислота'},al=ft==='OH'||ft==='NH2';
- if(!d.length&&!t.length){let r=ST[L]+'ан';if(ft){r+=mu(fl)+FS[ft];if(al&&L>2)r+='-'+fl.join(',')}return r}
- const ps=[];if(d.length)ps.push(mu(d)+'ен-'+d.join(','));if(t.length)ps.push(mu(t)+'ин-'+t.join(','));
- if(!ft&&L<=3&&ps.length===1&&d.length+t.length===1)ps[0]=ps[0].replace(/-\d+$/,'');
- let r=ST[L]+((d.length?d.length>1:t.length>1)?'а':'')+ps.join('-');
- if(ft){r+='-'+mu(fl)+FS[ft];if(al)r+='-'+fl.join(',')}return r}
+function endg(L,d,t,ft,fl){const mu=a=>a.length>1?MU[a.length]:'',FS={OH:'ол',NH2:'амин',CHO:'аль',COOH:'овая кислота'},al=ft==='OH'||ft==='NH2',S=x=>mk('sf',x),R=mk('rt',ST[L]);
+ if(!d.length&&!t.length){let r=R+S('ан');if(ft){r+=S(mu(fl)+FS[ft]);if(al&&L>2)r+='-'+fl.join(',')}return r}
+ const ps=[];if(d.length)ps.push([mu(d)+'ен',d.join(',')]);if(t.length)ps.push([mu(t)+'ин',t.join(',')]);
+ if(!ft&&L<=3&&ps.length===1&&d.length+t.length===1)ps[0][1]='';
+ let r=R+((d.length?d.length>1:t.length>1)?'а':'')+ps.map(([w,l])=>S(w)+(l?'-'+l:'')).join('-');
+ if(ft){r+='-'+S(mu(fl)+FS[ft]);if(al)r+='-'+fl.join(',')}return r}
 function genU(n,o){const seen=new Map();
  for(const t of gen(n))for(let v=0;v<n;v++)for(const u of t[v]){if(u<v)continue;
   const c=cp(t);c.b[v+','+u]=o;if(val(c,v)>4||val(c,u)>4)continue;const k=canon(c);if(!seen.has(k))seen.set(k,c)}
@@ -183,7 +172,8 @@ function nameRing(adj){const R=adj.ring,m=R.length,S=new Set(R),cs=[];
   p.forEach((v,i)=>adj[v].forEach(u=>{if(!S.has(u))subs.push({loc:i+1,nm:rad(adj,u,v)})}));
   sortS(subs);cs.push({p,subs,str:fmt(subs),ml:[]})}
  const b=pick(cs),root=adj.ar?'бензол':'цикло'+ST[m]+'ан',one=b.subs.length===1,x=one?(cx(b.subs[0].nm)?'('+b.subs[0].nm+')':b.subs[0].nm):b.str;
- return{name:x+root,path:b.p,ns:b.subs.length,ml:[],fl:[],pre:b.str,sk:''}}
+ const html=(one?mk('pf',x):fmt(b.subs,1))+(adj.ar?mk('rt','бенз')+mk('sf','ол'):mk('pf','цикло')+mk('rt',ST[m])+mk('sf','ан'));
+ return{name:strip(html),html,path:b.p,ns:b.subs.length,ml:[],fl:[],pre:b.str,sk:''}}
 function cls(a){const ft=fgT(a);if(ft&&!a.ring)return({OH:'Спирт · CₙH₂ₙ₊₁OH',NH2:'Амин · CₙH₂ₙ₊₁NH₂',CHO:'Альдегид · CₙH₂ₙ₊₁CHO',COOH:'Карбоновая кислота · CₙH₂ₙ₊₁COOH'})[ft]+(FC(a)>1?' · несколько групп':'')+(MB(a)?' · с кратной связью':'');const v=Object.values(a.b||{}),d=v.filter(x=>x===2).length,t=v.filter(x=>x===3).length;
  return a.ar?'Арен · CₙH₂ₙ₋₆':a.ring?'Циклоалкан · CₙH₂ₙ':t?(t>1?'Алкадиин':'Алкин')+' · CₙH₂ₙ₋₂':d>2?'Полиен':d>1?'Алкадиен · CₙH₂ₙ₋₂':d?'Алкен · CₙH₂ₙ':'Алкан · CₙH₂ₙ₊₂'}
 function cands(g,mo,o){const out=[];
@@ -223,9 +213,9 @@ function paths(adj){const n=adj.length;if(n===1)return[[0]];const ft=fgT(adj),F=
  return res}
 const cx=s=>/\d/.test(s);
 const key=s=>s.replace(/^[^а-я]+/,'');
-function fmt(subs){const g={};subs.forEach(s=>(g[s.nm]=g[s.nm]||[]).push(s.loc));
+function fmt(subs,h){const g={};subs.forEach(s=>(g[s.nm]=g[s.nm]||[]).push(s.loc));
  return Object.keys(g).sort((a,b)=>key(a).localeCompare(key(b),'ru')).map(nm=>{
-  const l=g[nm].sort((a,b)=>a-b);return l.join(',')+'-'+(l.length>1?MU[l.length]:'')+(cx(nm)?'('+nm+')':nm)}).join('-')}
+  const l=g[nm].sort((a,b)=>a-b);const w=l.join(',')+'-'+(l.length>1?MU[l.length]:'')+(cx(nm)?'('+nm+')':nm);return h?mk('pf',w):w}).join('-')}
 const sortS=s=>s.sort((a,b)=>a.loc-b.loc||(a.nm<b.nm?-1:a.nm>b.nm?1:0));
 function pick(cs){return cs.sort((a,b)=>{const f1=a.fl||[],f2=b.fl||[];for(let i=0;i<f1.length;i++)if(f1[i]!==f2[i])return f1[i]-f2[i];const x=a.ml||[],y=b.ml||[];for(let i=0;i<x.length;i++)if(x[i]!==y[i])return x[i]-y[i];if(a.subs.length!==b.subs.length)return b.subs.length-a.subs.length;
  for(let i=0;i<a.subs.length;i++)if(a.subs[i].loc!==b.subs[i].loc)return a.subs[i].loc-b.subs[i].loc;
@@ -241,7 +231,8 @@ function nameTree(adj){if(adj.ring)return nameRing(adj);const F=adj.f||{},ft=fgT
    if(F[v]&&F[v]===ft)fl.push(i+1);else if(F[v])subs.push({loc:i+1,nm:PF[F[v]]});
    if(i<p.length-1){const o=bo(adj,v,p[i+1]);if(o===2)d.push(i+1);if(o===3)t.push(i+1)}});
   sortS(subs);return{p,subs,d,t,fl,ml:[...d,...t].sort((a,b)=>a-b),str:fmt(subs)}});const b=pick(cs);
- return{name:b.str+endg(b.p.length,b.d,b.t,ft,b.fl),path:b.p,ns:b.subs.length,ml:b.ml,fl:b.fl,pre:b.str,sk:b.d+'|'+b.t+'|'+b.fl+ft}}
+ const html=fmt(b.subs,1)+endg(b.p.length,b.d,b.t,ft,b.fl);
+ return{name:strip(html),html,path:b.p,ns:b.subs.length,ml:b.ml,fl:b.fl,pre:b.str,sk:b.d+'|'+b.t+'|'+b.fl+ft}}
 const chainA=L=>Array.from({length:L},(_,i)=>[...(i?[i-1]:[]),...(i<L-1?[i+1]:[])]);
 function parseRad(s){const m=s.match(/^(.*?)(мет|эт|проп|бут|пент|гекс|гепт|окт)ил$/);if(!m)return null;
  const a=chainA(ST.indexOf(m[2])),re=/(\d+(?:,\d+)*)-?(ди|три|тетра)?(мет|эт|проп|бут)ил-?/g;let r,last=0;
@@ -315,20 +306,22 @@ function solve(line,defs){
  for(const m of t.matchAll(re)){const s=m[1];if(s==='и'){md.push(['I',0]);continue}
   const q=+s.replace(/\D/g,'')||1,c=s[0];if(c!=='-')md.push(['P',q]);if(c==='-'||c==='±')md.push(['M',q])}
  t=t.replace(re,' ').trim();if(!md.length)md=defs;
- md.sort((a,b)=>'IPM'.indexOf(a[0])-'IPM'.indexOf(b[0]));
+ md.sort((a,b)=>'PMI'.indexOf(a[0])-'PMI'.indexOf(b[0]));
  const adj=parseName(t);
  if(!adj||adj==='val')return{html:bad('Не получилось',esc(line)+(adj==='val'?': нарушена валентность углерода.':': не распознал название. Пример: 2,4-диметилгексан.')),sum:esc(line)+' — ошибка'};
- const n=adj.length,me=nameOf(adj),sm=[],hs={};
- let h=card(`Дано: ${nm(me.name)}`,me.svg+`<div class="fo">${fm(n,H(adj),...hetero(adj))}</div><div class="sm">${cls(adj)}</div>`);
+ const n=adj.length,me=nameOf(adj),sm=[],hs={};let sh=0;
+ const dc=()=>{if(sh||!(hs.P&&hs.M))return'';sh=1;const t=hs.Pk+hs.Mk;return card('Разность гомологов',`<div class="col"><div>−&nbsp;${fm(...hs.P)}</div><div>&nbsp;&nbsp;${fm(...hs.M)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(t,2*t)}${t>1?` <span class="sm">= ${t}·CH<sub>2</sub></span>`:''}</div></div>`)};
+ let h=card(`Дано: ${nm(me.html)}`,me.svg+`<div class="fo">${fm(n,H(adj),...hetero(adj))}</div><div class="sm">${cls(adj)}</div>`);
  for(const[mo,k]of md){
   if(mo==='I'){
+   h+=dc();
    if((MB(adj)>1&&!adj.ring)||FC(adj)>1||(FC(adj)&&MB(adj))){h+=bad('И','Изомеры для нескольких кратных связей или групп пока не умею.');continue}
    if(n>12){h+=bad('И','Для режима И поддерживаю до 12 атомов углерода.');continue}
    const k0=canon(adj),L=(adj.ring?genRing(n,adj.ar):FC(adj)?genF(n,fgT(adj)):MB(adj)?genU(n,Math.max(...Object.values(adj.b))):gen(n)).map(a=>({key:canon(a),...nameOf(a)}));
    L.sort((x,y)=>y.path.length-x.path.length||(x.fl[0]||0)-(y.fl[0]||0)||(x.ml[0]||0)-(y.ml[0]||0)||x.ns-y.ns||(x.name<y.name?-1:1));
    h+=card(`Изомеры ${fm(n,H(adj),...hetero(adj))}: всего <b>${L.length}</b>`,'');
    let c=0;L.forEach(x=>{const own=x.key===k0,st=x.ns===0;
-    h+=card((st?'':`<b>И${sb(++c)}</b>`)+(own?' ← заданное вещество':''),x.svg+`<div class="nl">${nm(st&&!x.ml.length&&!x.fl.length&&!adj.ring?'н-'+x.name:x.name)}<span class="fo">${fm(n,H(adj),...hetero(adj))}</span></div>`,own?'hl':'')});
+    h+=card((st?'':`<b>И${sb(++c)}</b>`)+(own?' ← заданное вещество':''),x.svg+`<div class="nl">${nm(st&&!x.ml.length&&!x.fl.length&&!adj.ring?mk('pf','н-')+x.html:x.html)}<span class="fo">${fm(n,H(adj),...hetero(adj))}</span></div>`,own?'hl':'')});
    sm.push('изомеров: '+L.length);continue}
   const sg=mo==='P'?'+':'−';
   if(mo==='M'&&n-k<1){h+=bad(sg+'Г'+sb(k),`Из ${n} атомов C нельзя убрать ${k} групп CH<sub>2</sub>.`);continue}
@@ -340,9 +333,9 @@ function solve(line,defs){
   const note=dn<k?`<div class="sm">${sg}Г${sb(k)} невозможен: радикал или кратная связь не помещается в цепь. Максимум: ${sg}Г${sb(dn)}.</div>`:'';
   const hm=nameOf(g),n2=g.length,A=[n,H(adj),...hetero(adj)],B=[n2,H(g),...hetero(g)],[bg,lw]=n>=n2?[A,B]:[B,A];
   hs[mo]=B;hs[mo+'k']=dn;
-  h+=card(`${sg}Г${sb(dn)}: ${nm(hm.name)}`,note+hm.svg+`<div class="fo">${fm(...B)}</div><div class="col"><div>−&nbsp;${fm(...bg)}</div><div>&nbsp;&nbsp;${fm(...lw)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(dn,2*dn)}${dn>1?` <span class="sm">= ${dn}·CH<sub>2</sub></span>`:''}</div></div>`);
+  h+=card(`${sg}Г${sb(dn)}: ${nm(hm.html)}`,note+hm.svg+`<div class="fo">${fm(...B)}</div><div class="col"><div>−&nbsp;${fm(...bg)}</div><div>&nbsp;&nbsp;${fm(...lw)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(dn,2*dn)}${dn>1?` <span class="sm">= ${dn}·CH<sub>2</sub></span>`:''}</div></div>`);
   sm.push(`${sg}Г${dn} → ${hm.name}`)}
- if(hs.P&&hs.M){const t=hs.Pk+hs.Mk;h+=card('Разность гомологов',`<div class="col"><div>−&nbsp;${fm(...hs.P)}</div><div>&nbsp;&nbsp;${fm(...hs.M)}</div><div class="ln"></div><div>&nbsp;&nbsp;${fm(t,2*t)}${t>1?` <span class="sm">= ${t}·CH<sub>2</sub></span>`:''}</div></div>`)}
+ h+=dc();
  return{html:h,sum:`${esc(me.name)} · ${fm(n,H(adj),...hetero(adj))} · ${sm.join('; ')}`}}
 
 const $=id=>document.getElementById(id),root=document.documentElement,EMPTY=$('out').innerHTML;
@@ -369,7 +362,6 @@ $('q').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)
 $('q').addEventListener('input',save);
 IDS.concat(['kp','km']).forEach(i=>$(i).addEventListener('change',()=>{save();if($('out').querySelector('.card:not(.empty)'))run(false)}));
 $('clr').onclick=()=>{$('q').value='';$('out').innerHTML=EMPTY;save();$('q').focus()};
-document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{$('q').value=b.dataset.ex;run(true)});
 
 /* тема: авто → светлая → тёмная */
 const TH=['auto','light','dark'],TN={auto:'авто',light:'светлая',dark:'тёмная'};let th=TH.includes(store.get('chem.th'))?store.get('chem.th'):'auto';
@@ -383,8 +375,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',applyThem
 let dip=null;
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;$('inst').hidden=false});
 $('inst').onclick=async()=>{if(!dip)return;dip.prompt();try{await dip.userChoice}catch(e){}dip=null;$('inst').hidden=true};
-addEventListener('appinstalled',()=>{$('inst').hidden=true;$('ios').hidden=true});
-if(!(matchMedia('(display-mode: standalone)').matches||navigator.standalone))$('ios').hidden=false;
+addEventListener('appinstalled',()=>$('inst').hidden=true);
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 if($('q').value.trim())run(false);
 </script>
